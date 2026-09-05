@@ -46,7 +46,7 @@ initial package scaffolding.
 - Structural: bundled skill-creator and plugin-creator validators passed. The
   repository validator found seven skill files and 37 unique scenarios. Fourteen
   local Markdown links across the repository resolved at the delivery check.
-- Tooling execution: 36 tests passed without skips on Windows with Python 3.12.14.
+- Tooling execution: 37 tests passed without skips on Windows with Python 3.12.14.
   These include real symlink/junction cases, normalized path containment,
   existing-target preservation, interrupted placement, receipt drift and CLI use.
   An actual temporary installation, identical reinstall and integrity check passed.
@@ -67,3 +67,20 @@ activity. Host instructions still applied, both requests shared one evaluator
 context, and exact effective model/effort metadata was not independently verified.
 No claim of measured model improvement, fresh host plugin installation, actual
 context compaction or full behavioral execution coverage follows from this run.
+
+The full rubric-aware review is recorded in
+[decision-review-2026-09-05.json](decision-review-2026-09-05.json): 35 cases were
+compatible at the static level and two were inconclusive (WF-11/WF-30 model
+execution unavailable). Fifteen additional conceptual attempts covered five
+sensitive cases. None is a separately executed or statistically independent trial.
+
+GitHub CI initially passed on Ubuntu but failed on Windows temporary paths.
+The validator compared a canonical path with an unresolved spelling of the same
+location. A new equivalent-path regression reproduced the failure locally. The
+validator now rejects links before canonicalizing its root, and all 37 local
+tests pass. The initial failed GitHub runs remain in the repository history.
+
+A clean clone of the published implementation branch at e694bca was installed
+into a separate temporary destination. Its receipt recorded that exact commit
+and dirty=false; a second integrity check passed. This verifies package copying
+and provenance, not activation in a fresh Codex host or plugin marketplace.

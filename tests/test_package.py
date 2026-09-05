@@ -59,6 +59,12 @@ class PackageTests(unittest.TestCase):
         with self.assertRaisesRegex(PackageError, "frontmatter"):
             validate_package(self.root)
 
+    def test_validation_canonicalizes_equivalent_source_paths(self) -> None:
+        sibling = self.space / "sibling"
+        sibling.mkdir()
+        equivalent = sibling / ".." / "source"
+        self.assertEqual(validate_package(equivalent), validate_package(self.root))
+
     def test_invalid_yaml_fails(self) -> None:
         write(self.skill / "SKILL.md", "---\nname: [broken\n---\n")
         with self.assertRaisesRegex(PackageError, "Invalid YAML"):

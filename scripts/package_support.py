@@ -203,6 +203,8 @@ def content_hashes(folder: Path, exclude: frozenset[str] = frozenset()) -> dict[
 
 def validate_package(root: Path) -> dict:
     root = root.absolute()
+    reject_links(root)
+    root = root.resolve()
     safe_files(root, frozenset(IGNORED_DIRS))
     skill = root / "skills/workflow"
     files = safe_files(skill)
