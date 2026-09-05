@@ -19,6 +19,7 @@ were written for this repository.
 The plugin manifest was scaffolded using the locally provided plugin-creator and
 filled with project metadata. The creator and its validators are development
 tools and are not redistributed. External documentation is linked at its source.
-The license is awaiting the author's selection. When added, it will cover the
-included material, not linked tools, models or agents. Confirm the origin of new
-material before adding it.
+The included material is distributed under the MIT License, Copyright (c) 2026
+Eduardo Bertin. LICENSE is authoritative; skills/workflow/LICENSE preserves the
+same notice in standalone installations. Linked tools, models and agents retain
+their own terms. Confirm the origin of new material before adding it.

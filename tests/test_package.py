@@ -36,6 +36,20 @@ def create_package(root: Path) -> Path:
     return skill
 
 
+def declare_license(root: Path, license_name: object = "MIT") -> None:
+    path = root / ".codex-plugin/plugin.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    manifest["license"] = license_name
+    write(path, json.dumps(manifest))
+
+
+def license_package(root: Path, skill: Path) -> None:
+    declare_license(root)
+    notice = "MIT License\n\nCopyright (c) 2026 Test Author\n\nSynthetic fixture notice.\n"
+    write(root / "LICENSE", notice)
+    write(skill / "LICENSE", notice)
+
+
 class PackageTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory(prefix="workflow-test-")
@@ -139,6 +153,55 @@ class PackageTests(unittest.TestCase):
                 with self.assertRaises(PackageError):
                     validate_package(self.root)
 
+    def test_declared_license_requires_both_notices_before_installation(self) -> None:
+        for present in ((), ("LICENSE",), ("skills/workflow/LICENSE",)):
+            with self.subTest(present=present), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "source"
+                create_package(root)
+                declare_license(root)
+                for name in present:
+                    write(root / name, "MIT License\n\nSynthetic fixture notice.\n")
+                with self.assertRaisesRegex(PackageError, "License notice missing"):
+                    install(root, self.destination)
+                self.assertFalse(self.destination.exists())
+
+    def test_license_notices_must_match_without_normalization(self) -> None:
+        license_package(self.root, self.skill)
+        path = self.skill / "LICENSE"
+        path.write_bytes(path.read_bytes() + b"\n")
+        with self.assertRaisesRegex(PackageError, "match byte-for-byte"):
+            install(self.root, self.destination)
+        self.assertFalse(self.destination.exists())
+
+    def test_matching_empty_license_notices_are_rejected(self) -> None:
+        license_package(self.root, self.skill)
+        for path in (self.root / "LICENSE", self.skill / "LICENSE"):
+            write(path, " \n")
+        with self.assertRaisesRegex(PackageError, "nonempty license notice"):
+            validate_package(self.root)
+
+    def test_license_notice_requires_manifest_declaration(self) -> None:
+        for location in ("LICENSE", "skills/workflow/LICENSE"):
+            with self.subTest(location=location), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "source"
+                create_package(root)
+                write(root / location, "MIT License\n\nSynthetic fixture notice.\n")
+                with self.assertRaisesRegex(PackageError, "requires nonempty license"):
+                    validate_package(root)
+
+    def test_license_notice_without_manifest_is_rejected(self) -> None:
+        license_package(self.root, self.skill)
+        (self.root / ".codex-plugin/plugin.json").unlink()
+        with self.assertRaisesRegex(PackageError, "requires nonempty license"):
+            validate_package(self.root)
+
+    def test_invalid_license_declarations_are_rejected(self) -> None:
+        for declaration in (None, "", "  ", 42):
+            with self.subTest(declaration=declaration):
+                declare_license(self.root, declaration)
+                with self.assertRaisesRegex(PackageError, "requires nonempty license"):
+                    validate_package(self.root)
+
     def test_sensitive_path_rejected_before_reading_any_content(self) -> None:
         write(self.root / ".env", "synthetic fixture")
         with patch.object(Path, "read_text", side_effect=AssertionError("Must not read contents")):
@@ -176,6 +239,23 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(receipt["version"], "0.1.0")
         self.assertIn("revision_status", receipt)
         self.assertEqual(check_install(self.destination, receipt["files"])["status"], "identical")
+
+    def test_fresh_install_preserves_license_notice_and_receipt_hash(self) -> None:
+        license_package(self.root, self.skill)
+        self.assertEqual(install(self.root, self.destination)["status"], "installed")
+        self.assertEqual((self.destination / "LICENSE").read_bytes(),
+                         (self.root / "LICENSE").read_bytes())
+        receipt = json.loads((self.destination / RECEIPT).read_text(encoding="utf-8"))
+        self.assertEqual(receipt["files"]["LICENSE"], content_hashes(self.skill)["LICENSE"])
+        self.assertEqual(install(self.root, self.destination, check=True)["status"], "identical")
+
+    def test_check_detects_dropped_installed_license_without_replacing_it(self) -> None:
+        license_package(self.root, self.skill)
+        install(self.root, self.destination)
+        (self.destination / "LICENSE").unlink()
+        with self.assertRaisesRegex(PackageError, "drifted"):
+            install(self.root, self.destination, check=True)
+        self.assertFalse((self.destination / "LICENSE").exists())
 
     def test_reinstall_is_idempotent_and_does_not_touch_files(self) -> None:
         install(self.root, self.destination)

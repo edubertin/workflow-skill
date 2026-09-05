@@ -4,8 +4,11 @@ Workflow ajuda o Codex a escolher o processo adequado para uma tarefa: análise,
 planejamento, implementação, revisão ou publicação. Preserva o objetivo durante
 interrupções, consulta o contexto do projeto e verifica a autorização antes de agir.
 
-Este é o repositório de manutenção da skill. A versão inicial está em revisão;
-ainda não existe uma release estável ou listagem publicada no diretório de plugins.
+Este é o repositório de manutenção da skill, distribuída sob a [licença MIT](LICENSE).
+A primeira versão pública é a pré-release experimental
+[v0.1.0-alpha.1](https://github.com/edubertin/workflow-skill/releases/tag/v0.1.0-alpha.1).
+Os limites de validação estão documentados; ainda não há versão estável ou
+listagem publicada no diretório de plugins.
 
 ## Exemplos
 
@@ -28,13 +31,13 @@ para orientar uma conversa.
 ```sh
 git clone https://github.com/edubertin/workflow-skill.git
 cd workflow-skill
-git switch codex/portable-workflow-foundation
+git checkout --detach v0.1.0-alpha.1
 python -m pip install -r requirements-dev.txt
 python scripts/validate_package.py
 ```
 
-O exemplo seleciona a branch em revisão. Quando houver releases, prefira uma tag
-publicada e confira suas notas antes de atualizar.
+O exemplo seleciona uma versão identificada pela tag. Confira suas notas antes
+de atualizar. A página da release também oferece os arquivos para download.
 
 O instalador exige o destino explícito da pasta da skill, fora deste checkout, e
 uma pasta pai existente. Exemplo de instalação para avaliação, em uma pasta nova:
@@ -97,5 +100,5 @@ A skill evolui a versão pessoal de Workflow, anteriormente registrada em
 [workflow-2.0](https://github.com/edubertin/workflow-2.0) é o projeto separado de runtime.
 Veja [PROVENANCE.md](PROVENANCE.md) para os limites do conteúdo incluído.
 
-A licença está aguardando escolha do autor; nenhuma licença de código aberto
-foi atribuída a esta versão em revisão.
+Copyright (c) 2026 Eduardo Bertin. A licença MIT acompanha o repositório e a
+instalação independente da skill. Materiais externos mantêm suas próprias licenças.

@@ -1,12 +1,22 @@
 # Review and release
 
-## Initial GitHub delivery
+## Release maturity
 
-A minimal main bootstrap provides a base for codex/portable-workflow-foundation.
-The full package is proposed in a draft PR. Review scope, provenance, CI and
-behavioral evidence before merge. Follow the user's actual publication authority.
+The first public package is the experimental prerelease v0.1.0-alpha.1, reviewed
+in PR #1. It provides the portable instructions and installation tools for
+evaluation. It is not a stable qualification or a plugin-directory listing.
 
-## Prepare a release
+An experimental GitHub prerelease requires reviewed scope/provenance, the selected
+license in both distribution forms, green CI, a clean installation with integrity
+verification, and documented representative local execution. Record the full
+decision review and all unexecuted or inconclusive cases. Mark the GitHub release
+as a prerelease, use a prerelease version, and state these limits in its notes.
+
+Stable qualification additionally requires the fresh host and broader behavioral
+checks below. The alpha designation does not turn a static review or conceptual
+attempt into execution evidence. Preserve earlier failures and open criteria.
+
+## Qualify a stable release
 
 1. Select regression cases before execution. Broad instruction changes require
    the full suite; repeat stochastic cases as the evaluation protocol requires.
@@ -20,6 +30,12 @@ behavioral evidence before merge. Follow the user's actual publication authority
    version and move Unreleased changes to a dated CHANGELOG entry.
 5. With explicit authorization, merge the reviewed PR, create the corresponding
    version tag and GitHub release. Correct a release by publishing a new version.
+
+For either maturity, verify the exact reviewed head and required checks before
+merge. Tag the resulting main commit. Publish source/plugin and standalone skill
+archives from that tag with SHA256 checksums. The standalone skill must include
+LICENSE; the full archive must include both identical notices. Inspect archive
+members before upload and verify the published tag and asset digests afterward.
 
 Protect main with required CI checks, PR flow, resolved conversations and blocked
 force pushes/deletion. A solo maintainer can use zero required second-party

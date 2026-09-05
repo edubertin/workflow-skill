@@ -1,8 +1,9 @@
 # Project map
 
 Workflow Skill is a portable instruction package for scoped execution,
-continuity and evidence-based review. The first portable release is under
-preparation in a draft PR. There is no backend, database or deployed service.
+continuity and evidence-based review. Version 0.1.0-alpha.1 is the initial public
+experimental release under MIT. Stable qualification and host/plugin activation
+coverage remain pending. There is no backend, database or deployed service.
 
 | Path | Responsibility |
 | --- | --- |
@@ -18,7 +19,7 @@ preparation in a draft PR. There is no backend, database or deployed service.
 | PROVENANCE.md | Source selection and excluded material |
 
 Commands are in AGENTS.md. Update this map when responsibilities change.
-The personal Workflow installation is separate; this draft does not replace it.
+The personal Workflow installation is separate; this release does not replace it.
 Adoption requires a reviewed version and an explicit installation target.
 
 Initial scope: portability, specialist discovery, installation, validation,

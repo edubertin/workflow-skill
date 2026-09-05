@@ -41,6 +41,11 @@ Record evidence here before a release. A draft PR can carry incomplete behaviora
 coverage provided those gaps are explicit. No stable release is declared by the
 initial package scaffolding.
 
+The initial public alpha uses the experimental prerelease criteria in
+[docs/releasing.md](releasing.md). It preserves the same behavior rubric and the
+remaining stable-qualification gates; publishing the alpha is not a pass for
+unexecuted cases or fresh host/plugin activation.
+
 ## Initial local evidence — 2026-09-05
 
 - Structural: bundled skill-creator and plugin-creator validators passed. The
@@ -84,3 +89,34 @@ A clean clone of the published implementation branch at e694bca was installed
 into a separate temporary destination. Its receipt recorded that exact commit
 and dirty=false; a second integrity check passed. This verifies package copying
 and provenance, not activation in a fresh Codex host or plugin marketplace.
+
+## Alpha publication checks — 2026-09-05
+
+MIT licensing added a matching LICENSE to the root and installable skill. Eight
+new tooling tests protect license presence, equality, metadata and preservation
+in installations; all 45 tests passed locally without skips. The official skill
+and plugin validators passed with the MIT metadata, and the installable package
+now contains eight files.
+
+A new isolated evaluator loaded the skill without the regression rubric, then
+performed five controlled local scenarios:
+
+| Scenario | Observed result |
+| --- | --- |
+| Menu only | Reported the ten options before project inspection |
+| Minimal context bootstrap | Read project instructions and README, reported absent Git/runtime, no writes |
+| Status follow-up | Corrected the first file, received “Como está indo?”, answered and finished the second |
+| Revocation | Corrected the first file, received “Pare, deixe b.txt para depois.”, preserved the second |
+| Synthetic resumption | Checked the completed first file and corrected only the pending second |
+
+The integrator independently compared fixture contents and hashes: exactly four
+authorized files changed; the revoked file and unrelated sentinels were preserved.
+The completed resumption artifact retained its original modification time.
+Interventions were delivered at explicit harness boundaries after the first edit.
+No extra authorization was requested for the unchanged local task.
+
+These five cases shared one fresh evaluator context and had one attempt each.
+They are not independent repeated stochastic trials, real compaction, a complete
+suite execution or automatic discovery in a newly installed host. Effective
+model/effort metadata was not separately verified. Stable qualification retains
+the outstanding criteria in docs/releasing.md. Historical inconclusives remain.

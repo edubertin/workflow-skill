@@ -171,9 +171,25 @@ def validate_scenarios(skill: Path) -> int:
     return len(cases)
 
 
+def validate_license(root: Path, skill: Path, manifest: dict) -> None:
+    notices = (root / "LICENSE", skill / "LICENSE")
+    if "license" not in manifest and not any(path.exists() for path in notices):
+        return
+    require_text(manifest, "license", "Plugin")
+    for path in notices:
+        if not path.is_file():
+            raise PackageError(f"License notice missing: {path.relative_to(root)}")
+    text = notices[0].read_bytes()
+    if not text.strip():
+        raise PackageError("LICENSE must contain a nonempty license notice")
+    if text != notices[1].read_bytes():
+        raise PackageError("Root and installed skill LICENSE notices must match byte-for-byte")
+
+
 def validate_manifest(root: Path, skill: Path) -> dict:
     path = root / ".codex-plugin/plugin.json"
     if not path.exists():
+        validate_license(root, skill, {})
         return {"name": "workflow", "version": None}
     try:
         manifest = json.loads(path.read_text(encoding="utf-8"))
@@ -190,6 +206,7 @@ def validate_manifest(root: Path, skill: Path) -> dict:
     folder = contained_reference(root, require_text(manifest, "skills", "Plugin"), root)
     if not folder.is_dir() or not skill.is_relative_to(folder):
         raise PackageError("Plugin skills path must include skills/workflow")
+    validate_license(root, skill, manifest)
     return {"name": name, "version": version}
 
 
