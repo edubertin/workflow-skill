@@ -1,0 +1,7 @@
+interface:
+  display_name: "Workflow"
+  short_description: "Route work, repos, and risks safely"
+  default_prompt: "Use $workflow to show the workflow menu or choose the safest lightweight process for this request before planning or executing."
+
+policy:
+  allow_implicit_invocation: true

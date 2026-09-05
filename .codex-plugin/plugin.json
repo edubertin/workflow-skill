@@ -1,0 +1,21 @@
+{
+  "name": "workflow-skill",
+  "version": "0.1.0-alpha.1",
+  "license": "MIT",
+  "homepage": "https://github.com/edubertin/workflow-skill",
+  "repository": "https://github.com/edubertin/workflow-skill",
+  "description": "Portable workflow routing, scoped execution and evidence-based review for Codex.",
+  "author": {
+    "name": "Eduardo Bertin"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workflow",
+    "shortDescription": "Route tasks with scope, continuity and evidence.",
+    "longDescription": "Choose a proportionate process, discover available specialists and preserve user authority through execution and review.",
+    "developerName": "Eduardo Bertin",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use $workflow to choose a proportionate process for this task."
+  }
+}
