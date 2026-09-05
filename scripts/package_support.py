@@ -38,6 +38,10 @@ PERSONAL_PATH = re.compile(r"(?<![A-Za-z])[A-Za-z]:[\\/]|/(?:Users|home)/|~[\\/]
 SENSITIVE_NAMES = {".env", "credentials.json", "credentials", "auth.json", "id_rsa", "id_ed25519"}
 SENSITIVE_SUFFIXES = {".pem", ".key", ".pfx", ".p12", ".crt", ".cer", ".zip", ".sqlite", ".db"}
 IGNORED_DIRS = {".git", "__pycache__", ".venv"}
+SITE_GENERATED_DIRS = frozenset({
+    "site/node_modules", "site/dist", "site/.wrangler", "site/.vinext",
+    "site/.next", "site/coverage", "site/test-results", "site/playwright-report",
+})
 
 
 def reject_links(path: Path) -> None:
@@ -58,7 +62,8 @@ def is_sensitive(path: Path) -> bool:
     )
 
 
-def safe_files(root: Path, exclude: frozenset[str] = frozenset()) -> list[Path]:
+def safe_files(root: Path, exclude: frozenset[str] = frozenset(),
+               exclude_paths: frozenset[str] = frozenset()) -> list[Path]:
     reject_links(root)
     if not root.is_dir():
         raise PackageError(f"Directory missing: {root.name}")
@@ -69,7 +74,8 @@ def safe_files(root: Path, exclude: frozenset[str] = frozenset()) -> list[Path]:
             reject_links(path)
             if is_sensitive(path):
                 raise PackageError(f"Sensitive or generated artifact path: {path.relative_to(root)}")
-        names[:] = [name for name in names if name not in exclude]
+        names[:] = [name for name in names if name not in exclude
+                    and (Path(directory) / name).relative_to(root).as_posix() not in exclude_paths]
         for name in files:
             path = Path(directory) / name
             if not stat.S_ISREG(path.stat().st_mode):
@@ -222,7 +228,7 @@ def validate_package(root: Path) -> dict:
     root = root.absolute()
     reject_links(root)
     root = root.resolve()
-    safe_files(root, frozenset(IGNORED_DIRS))
+    safe_files(root, frozenset(IGNORED_DIRS), SITE_GENERATED_DIRS)
     skill = root / "skills/workflow"
     files = safe_files(skill)
     validate_frontmatter(skill)

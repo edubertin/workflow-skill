@@ -10,6 +10,14 @@ A primeira versão pública é a pré-release experimental
 Os limites de validação estão documentados; ainda não há versão estável ou
 listagem publicada no diretório de plugins.
 
+## Site e manual técnico
+
+O [site da Workflow](https://workflow-skill.edubertin.chatgpt.site) apresenta o
+produto, demonstra seus fluxos e publica o [manual técnico](https://workflow-skill.edubertin.chatgpt.site/manual).
+Seu código fica em [site/](site/README.md), com desenvolvimento e testes próprios.
+Veja [como manter e publicar o site](docs/site.md). A instalação da skill continua
+copiando somente `skills/workflow/`; não instala o site nem suas dependências.
+
 ## Exemplos
 
 - `workflow` — mostra o menu, sem inspecionar o projeto.

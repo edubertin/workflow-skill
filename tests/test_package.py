@@ -208,6 +208,50 @@ class PackageTests(unittest.TestCase):
             with self.assertRaisesRegex(PackageError, "Sensitive"):
                 validate_package(self.root)
 
+    def test_site_generated_dependencies_do_not_block_skill_installation(self) -> None:
+        for folder in ("node_modules", "dist", ".wrangler", ".vinext", ".next",
+                       "coverage", "test-results", "playwright-report"):
+            write(self.root / "site" / folder / "fixture.key", "Synthetic generated fixture")
+        write(self.root / "site/app/page.tsx", "export default function Page() { return null; }")
+        self.assertEqual(validate_package(self.root)["files"], 3)
+        result = install(self.root, self.destination)
+        self.assertEqual(result["status"], "installed")
+        self.assertFalse((self.destination / "site").exists())
+        self.assertEqual(check_install(self.destination, content_hashes(self.skill))["status"], "identical")
+
+    def test_site_source_secrets_still_fail_before_contents_are_read(self) -> None:
+        for location in ("site/.env", "site/app/.env.local", "site/public/certificate.pem",
+                         "site/docs/credentials.json"):
+            with self.subTest(location=location), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "source"
+                create_package(root)
+                write(root / location, "Synthetic fixture")
+                with patch.object(Path, "read_text", side_effect=AssertionError("Must not read contents")):
+                    with self.assertRaisesRegex(PackageError, "Sensitive"):
+                        validate_package(root)
+
+    def test_generated_site_exclusion_is_not_applied_to_other_paths(self) -> None:
+        for location in ("node_modules/fixture.key", "docs/site/dist/fixture.key",
+                         "site/app/node_modules/fixture.key", "skills/workflow/site/dist/fixture.key"):
+            with self.subTest(location=location), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "source"
+                create_package(root)
+                write(root / location, "Synthetic fixture")
+                with self.assertRaisesRegex(PackageError, "Sensitive"):
+                    validate_package(root)
+
+    def test_generated_site_folder_cannot_be_a_symlink(self) -> None:
+        external = self.space / "external"
+        external.mkdir()
+        link = self.root / "site/node_modules"
+        link.parent.mkdir()
+        try:
+            link.symlink_to(external, target_is_directory=True)
+        except OSError as error:
+            self.skipTest(f"Symlink creation is unavailable: {error}")
+        with self.assertRaisesRegex(PackageError, "Links"):
+            validate_package(self.root)
+
     def test_symlink_source_is_rejected(self) -> None:
         external = self.space / "external.md"
         write(external, "Fixture")
