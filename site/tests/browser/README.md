@@ -1,6 +1,6 @@
 # Verificação de movimento no navegador
 
-Os quatro arquivos são cenários executáveis pelo Playwright CLI e retornam listas de verificações aprovadas. Lançam erro no primeiro resultado diferente do esperado. Use uma sessão isolada de testes e uma origem local. Não usam contas nem produção.
+Os seis arquivos são cenários executáveis pelo Playwright CLI e retornam listas de verificações aprovadas. Lançam erro no primeiro resultado diferente do esperado. Use uma sessão isolada de testes e uma origem local. Não usam contas nem produção.
 
 Com a aplicação iniciada, na raiz do site:
 
@@ -10,6 +10,8 @@ npx --yes --package @playwright/cli playwright-cli -s=workflow-qa run-code --fil
 npx --yes --package @playwright/cli playwright-cli -s=workflow-qa run-code --filename tests/browser/motion-scroll.js
 npx --yes --package @playwright/cli playwright-cli -s=workflow-qa run-code --filename tests/browser/motion-mobile.js
 npx --yes --package @playwright/cli playwright-cli -s=workflow-qa run-code --filename tests/browser/motion-fallback.js
+npx --yes --package @playwright/cli playwright-cli -s=workflow-qa run-code --filename tests/browser/hero-refinement.js
+npx --yes --package @playwright/cli playwright-cli -s=workflow-qa run-code --filename tests/browser/wordmark-navigation.js
 npx --yes --package @playwright/cli playwright-cli -s=workflow-qa close
 ```
 
@@ -25,3 +27,5 @@ A visibilidade é um sinal simulado no documento de teste; não comprova suspens
 As esperas curtas comparam quadros ou aguardam ciclos de quatro segundos; não servem para substituir o carregamento da página. O CLI deve apresentar uma lista Result de checks aprovados. Verifique também Error: algumas versões do CLI podem encerrar com código zero após um erro de cenário.
 
 O CI padrão executa os cinco contratos HTTP, lint, tipos e build. Estes cenários complementares de navegador são executados separadamente; não estão apresentados como cobertura de CI.
+
+Hero refinement: alinhamento durante resize, nota removida, luz por letra, pausa pelo cabeçalho e suspensão fora da viewport.

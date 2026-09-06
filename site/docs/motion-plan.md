@@ -3,6 +3,8 @@
 Status: implementado na aplicação 0.2.0 e verificado localmente. O relatório motion-verification.md registra critérios, resultados e limites. Os tópicos abaixo preservam a proposta aprovada; consulte o relatório para a calibração final.
 Data: 5 de setembro de 2026.
 
+Refinamento 0.2.1: a luz por letra foi recalibrada após revisão visual e a figura vinculada à shell. Consulte [auditoria e ajustes](hero-refinement.md).
+
 ## Direção
 Dar ao site uma presença mais viva e uma narrativa que responda à rolagem, preservando o fundo escuro, a tipografia editorial e a luz champanhe. O movimento deve mostrar o processo da skill, manter o texto legível e deixar evidente quando está pausado.
 

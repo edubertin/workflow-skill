@@ -24,7 +24,6 @@ export function FlowExplorer(): React.JSX.Element {
         : <Button variant="ghost" className="motion-button" onClick={toggle} disabled={reduced || paused}>{playing && running ? <Pause /> : <Play />}{playing && running ? 'Pausar fluxo' : paused ? 'Fluxo pausado' : 'Animar fluxo'}</Button>}</div>
       <FlowNodes active={active} onSelect={select} />
       <div className="flow-details"><div className="flow-copy" key={active}><span className="eyebrow">0{active + 1} / {step.source}</span><h3>{step.heading}</h3><p>{step.copy}</p></div><div className="flow-example"><span className="micro">NA PRÁTICA</span><p key={active}>{step.example}</p><div className="flow-controls"><Button variant="ghost" aria-label="Etapa anterior" disabled={active === 0} onClick={() => select(active - 1)}><ArrowLeft /></Button><span>0{active + 1} / 05</span><Button variant="ghost" aria-label="Próxima etapa" disabled={active === 4} onClick={() => select(active + 1)}><ArrowRight /></Button><Button variant="ghost" aria-label="Reiniciar demonstração" onClick={() => select(0)}><RotateCcw /></Button></div></div></div>
-      <p className="diagram-note">{reduced ? 'Movimento reduzido ativo. Selecione as etapas para explorar.' : desktop ? 'A rolagem acompanha o processo. Você também pode selecionar qualquer etapa.' : 'Selecione uma etapa ou anime o percurso.'} O processo se adapta à tarefa; este diagrama é uma explicação.</p>
     </div>
   </section>;
 }

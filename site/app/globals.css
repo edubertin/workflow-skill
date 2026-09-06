@@ -22,7 +22,7 @@ a,button { transition:color .2s,background .2s,border-color .2s,opacity .2s; }
 .hero { position:relative; isolation:isolate; overflow:clip; background:var(--background); }
 .hero-visual { position:absolute; inset:0; z-index:-1; pointer-events:none; transform:translateY(var(--hero-scroll,0px)); mix-blend-mode:screen; }
 .hero-ribbon { position:absolute; inset:0; background:url(/hero-ribbon.png) center right / auto 85% no-repeat; filter:contrast(1.08); animation:hero-drift 9s ease-in-out infinite alternate; }
-.hero-layout { min-height:720px; display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr); gap:40px; align-items:center; }
+.hero-layout { position:relative; min-height:720px; display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr); gap:40px; align-items:center; }
 .hero-copy { padding-block:65px 70px; position:relative; z-index:2; }
 .eyebrow,.section-number,.art-coordinate { font-family:var(--font-geist-mono),monospace; font-size:12px; letter-spacing:.11em; color:var(--gold); }
 .eyebrow { display:flex; align-items:center; gap:12px; }.eyebrow i { width:22px; height:1px; background:var(--gold); }
@@ -101,13 +101,16 @@ h2 { font-family:var(--font-display),Georgia,serif; font-size:clamp(40px,4vw,58p
 
 .motion-root { display:contents; }
 .wordmark-letters { display:inline-flex; }
-.wordmark-letter { animation:letter-light .78s ease-in-out both; }
-@keyframes letter-light { 0%,100% { color:var(--foreground);text-shadow:none; } 38% { color:#f7dca5;text-shadow:0 0 12px #f2c97c99,0 0 26px #d5ae5f66; } }
+.wordmark[data-illuminated=true] .wordmark-letter { animation:letter-light 1.25s ease-in-out both; }
+.wordmark[data-illuminated=true][data-pass="1"] .wordmark-letter { animation-name:letter-light-repeat; }
+@keyframes letter-light { 0%,100% { color:var(--foreground);text-shadow:none; } 38%,55% { color:#ffe1a3;text-shadow:0 0 8px #ffda91,0 0 20px #edbd6388,0 0 32px #d5ae5f44; } }
+@keyframes letter-light-repeat { 0%,100% { color:var(--foreground);text-shadow:none; } 38%,55% { color:#ffe1a3;text-shadow:0 0 8px #ffda91,0 0 20px #edbd6388,0 0 32px #d5ae5f44; } }
 .global-motion-toggle { display:inline-flex; gap:7px; font-size:11px; color:#c1b59d; min-height:36px; padding:6px 8px; }
 .global-motion-toggle.compact { width:32px;min-width:32px;padding:0; }
 .motion-status { font-size:10px;color:#9da3ad; }
 .motion-status.compact { max-width:65px;line-height:1.4; }
 .motion-root[data-ready=false] .global-motion-toggle { visibility:hidden; }
+.wordmark[data-active=false] .wordmark-letter,
 .motion-root:not([data-motion=running]) .wordmark-letter,
 .motion-root:not([data-motion=running]) .hero-ribbon,
 .motion-root:not([data-motion=running]) .hero-route:after,

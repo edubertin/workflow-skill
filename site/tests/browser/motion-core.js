@@ -17,8 +17,11 @@ async (page) => {
   const frozen = await frame(); await page.waitForTimeout(300);
   check(JSON.stringify(frozen) === JSON.stringify(await frame()), 'pause freezes actual ribbon and signal frames');
   await page.getByRole('link',{name:'Manual técnico',exact:true}).click();
+  await page.waitForURL(origin + '/manual');
+  await page.getByRole('heading',{name:'Por dentro da Workflow.',exact:true}).waitFor();
   check(await root.getAttribute('data-motion') === 'paused', 'pause persists into manual');
   await page.getByRole('link',{name:'Workflow, início',exact:true}).click();
+  await page.waitForURL(origin + '/');
   check(await root.getAttribute('data-motion') === 'paused', 'pause persists back to landing');
   await page.getByRole('button',{name:'Retomar animações',exact:true}).last().click();
   const resumed = await frame(); await page.waitForTimeout(250);

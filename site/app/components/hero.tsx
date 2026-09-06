@@ -28,8 +28,9 @@ export function Hero(): React.JSX.Element {
     });
   }, [running, inView]);
   return <section ref={ref} className="hero" id="inicio" data-active={inView}>
-    <div ref={art} className="hero-visual" aria-hidden="true"><div className="hero-ribbon" /></div>
-    <div className="hero-layout shell"><HeroCopy />
+    <div className="hero-layout shell">
+      <div ref={art} className="hero-visual" aria-hidden="true"><div className="hero-ribbon" /></div>
+      <HeroCopy />
       <div className="hero-art" aria-label="Do pedido à verificação, um processo conectado">
         <ol className="hero-route" aria-label="Do pedido à verificação">{['Pedido', 'Contexto', 'Plano', 'Execução', 'Verificação'].map((label, index) => <li className="hero-route-step" key={label}><span>{String(index + 1).padStart(2, '0')}</span><strong>{label}</strong></li>)}</ol>
         <div className="hero-art-footer"><span className="art-coordinate">A intenção conduz. O contexto orienta.</span><MotionToggle /></div>
