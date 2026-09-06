@@ -52,4 +52,6 @@ O GitHub guarda este código em site/ dentro de edubertin/workflow-skill. O Site
 
 A versão 0.2.1 refina o alinhamento da figura e a percepção da iluminação; veja [auditoria do plano e ajustes](docs/hero-refinement.md).
 
+A versão 0.3.1 explicita o tipo HTTP da imagem WebP no ambiente publicado, mantendo a apresentação de 0.3.0.
+
 A versão 0.3.0 melhora apresentação, navegação por toque e manual no celular, preservando o desktop. Veja [implementação mobile](docs/mobile-implementation.md) e [verificação e limites](docs/mobile-verification.md).
