@@ -1,0 +1,34 @@
+async (page) => {
+  const origin = await page.evaluate(() => location.origin);
+  const passed = [];
+  const check = (value, name) => { if (!value) throw new Error(name); passed.push(name); };
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(origin);
+  await page.waitForFunction(() => document.querySelector('.motion-root')?.dataset.motion === 'running');
+  check(await page.locator('.flow-chapter').getAttribute('data-scroll') === 'false', 'mobile uses normal layout');
+  check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth), 'mobile has no horizontal overflow');
+  await page.getByRole('button',{name:'Animar fluxo',exact:true}).click();
+  const active = () => page.locator('.flow-node[aria-pressed=true]').getAttribute('aria-label');
+  const initial = await active(); await page.waitForTimeout(4250);
+  check(await active() !== initial, 'mobile optional autoplay advances');
+  await page.getByRole('button',{name:'Pausar animações',exact:true}).first().click();
+  const frozen = await active(); await page.getByRole('button',{name:'Fluxo pausado',exact:true}).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(4200);
+  check(await active() === frozen, 'global pause stops mobile timer');
+  await page.getByRole('button',{name:'Retomar animações',exact:true}).first().click();
+  await page.getByRole('button',{name:'Pausar fluxo',exact:true}).scrollIntoViewIfNeeded();
+  await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});
+  const hidden = await active(); await page.waitForTimeout(4200);
+  check(await active()===hidden && await page.locator('.motion-root').getAttribute('data-motion')==='hidden', 'visibility signal suspends timer');
+  await page.evaluate(()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));});
+  await page.waitForTimeout(200); check(await active()===hidden,'visibility return does not catch up missed steps');
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.waitForFunction(()=>document.querySelector('.motion-root')?.dataset.motion==='reduced');
+  check(await page.locator('.flow-chapter').getAttribute('data-scroll')==='false','reduced motion uses static chapter');
+  check(await page.locator('.hero-ribbon').evaluate(node=>getComputedStyle(node).animationName)==='none','reduced motion stops decoration');
+  check(await page.locator('.reveal').evaluateAll(nodes=>nodes.every(node=>getComputedStyle(node).opacity==='1')),'reduced motion exposes all text');
+  await page.getByRole('button',{name:'Etapa 3: Plano',exact:true}).focus(); await page.keyboard.press('Enter');
+  check((await active()).includes('3:'),'keyboard stage control works with reduced motion');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  return passed;
+}

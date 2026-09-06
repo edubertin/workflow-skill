@@ -16,3 +16,15 @@ test-results/
 *.pfx
 *.p12
 *.zip
+
+# Website dependencies and local build outputs
+/site/node_modules/
+/site/dist/
+/site/.wrangler/
+/site/.vinext/
+/site/.next/
+/site/coverage/
+/site/test-results/
+/site/playwright-report/
+/site/next-env.d.ts
+/site/*.tsbuildinfo

@@ -3,7 +3,8 @@
 Workflow Skill is a portable instruction package for scoped execution,
 continuity and evidence-based review. Version 0.1.0-alpha.1 is the initial public
 experimental release under MIT. Stable qualification and host/plugin activation
-coverage remain pending. There is no backend, database or deployed service.
+coverage remain pending. The skill has no runtime service. Its public presentation
+and technical manual are a separate website with no database or authentication.
 
 | Path | Responsibility |
 | --- | --- |
@@ -12,6 +13,9 @@ coverage remain pending. There is no backend, database or deployed service.
 | scripts/ | Validation and explicit-destination installation |
 | tests/ | Isolated tooling tests |
 | .github/workflows/ci.yml | Read-only CI on Windows and Linux |
+| site/ | Website source, visual assets and technical manual, hosted with Sites |
+| .github/workflows/site.yml | Independent website checks, without automatic deployment |
+| docs/site.md | Website development, versioning and publication boundaries |
 | docs/agents/ | Original maintenance/review profiles used as project context |
 | docs/evaluation.md | Behavioral evidence, procedures and verified limits |
 | docs/personalization.md | Optional personal and project policies |

@@ -47,6 +47,14 @@ The repository root is the workflow-skill plugin. Its manifest points to skills/
 There are no bundled services, hooks or credentials. Agent actions still depend
 on host permissions and user authorization.
 
+The repository also versions the public website under site/. It is not part of
+the installable skill. Future plugin release archives must select the plugin
+manifest, skills/, LICENSE and relevant package documentation explicitly; exclude
+site/ and all Node dependencies/build outputs. GitHub's automatic source archives
+represent the whole repository and are not the standalone installable package.
+Website-only changes do not advance the skill version or qualify new behavior.
+See [website maintenance](site.md) for its independent checks and publication.
+
 Use the host's current plugin-creator/validator and an explicit development
 marketplace when installation as a plugin is requested. Validate in a fresh task.
 A manifest check or GitHub PR does not publish a plugin-directory listing.

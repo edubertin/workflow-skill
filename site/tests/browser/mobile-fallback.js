@@ -1,0 +1,32 @@
+async (page) => {
+  const origin=await page.evaluate(()=>location.origin);
+  const results=[];const check=(value,label)=>{if(!value)throw new Error(label);results.push(label);};
+  const context=await page.context().browser().newContext({viewport:{width:320,height:740},javaScriptEnabled:false});
+  const fallback=await context.newPage();
+  await fallback.goto(origin);
+  await fallback.locator('.mobile-menu summary').click();
+  check(await fallback.getByRole('link',{name:'Como funciona',exact:true}).isVisible(),'menu works without JavaScript');
+  await fallback.getByRole('link',{name:'Manual',exact:true}).click();
+  await fallback.locator('.manual-mobile-index summary').click();
+  await fallback.getByRole('link',{name:'03 Modos e comandos',exact:true}).click();
+  check(await fallback.locator('.manual-mode:visible').count()===10,'manual content without JavaScript');
+  await context.close();
+  await page.setViewportSize({width:390,height:844});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto(origin);
+  await page.locator('.motion-root[data-ready=true]').waitFor();
+  check(await page.locator('.hero-ribbon').evaluate(el=>getComputedStyle(el).animationName)==='none','mobile reduced motion is static');
+  await page.locator('.mobile-menu summary').click();
+  check(await page.locator('.mobile-menu').getByText('Movimento reduzido',{exact:true}).isVisible(),'mobile menu reflects reduced motion');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(origin+'/manual');
+  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.reject(new Error('test clipboard denial'))},configurable:true}));
+  await page.getByRole('button',{name:'Copiar Preparar o pacote',exact:true}).click();
+  check(await page.getByText('Selecione o texto para copiar manualmente.',{exact:true}).isVisible(),'clipboard denial offers manual copying');
+  await page.goto(origin);
+  await page.locator('.mobile-menu summary').click();
+  await page.setViewportSize({width:1091,height:930});
+  check(await page.locator('.mobile-menu').getAttribute('open')===null,'menu closes when leaving mobile');
+  check(await page.locator('.mobile-menu').isHidden(),'mobile menu absent from desktop');
+  return results;
+}

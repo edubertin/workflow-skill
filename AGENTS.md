@@ -16,3 +16,5 @@ This repository distributes instructions, not an agent runtime.
 - Installer tests use isolated temporary destinations, never an active installation.
 - Generated installations and private traces belong in ignored local output.
 - Python functions: at most 40 lines. Report or propagate errors.
+- Website work: read site/AGENTS.md and docs/site.md. Its Node checks and deployment
+  are separate from skill installation and release qualification.
