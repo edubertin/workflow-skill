@@ -6,6 +6,11 @@ experimental release under MIT. Stable qualification and host/plugin activation
 coverage remain pending. The skill has no runtime service. Its public presentation
 and technical manual are a separate website with no database or authentication.
 
+The website is published at version 0.3.2; the approved mobile adaptation is
+complete. Read [the delivery record](docs/site-release-0.3.2.md) for the deployed
+source, acceptance evidence and remaining verification limits. Website readiness
+does not change the skill's experimental qualification.
+
 | Path | Responsibility |
 | --- | --- |
 | skills/workflow/ | Installable instructions, metadata and conditional references |
@@ -16,6 +21,7 @@ and technical manual are a separate website with no database or authentication.
 | site/ | Website source, visual assets and technical manual, hosted with Sites |
 | .github/workflows/site.yml | Independent website checks, without automatic deployment |
 | docs/site.md | Website development, versioning and publication boundaries |
+| docs/site-release-0.3.2.md | Approved website delivery and deployed source record |
 | docs/agents/ | Original maintenance/review profiles used as project context |
 | docs/evaluation.md | Behavioral evidence, procedures and verified limits |
 | docs/personalization.md | Optional personal and project policies |
@@ -23,6 +29,9 @@ and technical manual are a separate website with no database or authentication.
 | PROVENANCE.md | Source selection and excluded material |
 
 Commands are in AGENTS.md. Update this map when responsibilities change.
+The existing `site/` layout is intentional; do not migrate it to `apps/site/`
+only for naming consistency. The separate Sites deployment checkout mirrors
+these website sources and is not a second product.
 The personal Workflow installation is separate; this release does not replace it.
 Adoption requires a reviewed version and an explicit installation target.
 

@@ -2,6 +2,10 @@
 
 Data: 5 de setembro de 2026. Implementação do plano aprovado, pronta para publicação após os checks abaixo.
 
+Este é um registro histórico da etapa 0.2.0. Consulte a
+[verificação mobile e pública](mobile-verification.md) para os resultados
+posteriores e o [mapa do site](../PROJECT.md) para o estado atual.
+
 ## Resultado
 
 - Controle global Pausar animações / Retomar animações no cabeçalho e na abertura.
@@ -42,4 +46,5 @@ Os testes de viewport móvel e redução de movimento usam emulação, não um a
 
 O CI do GitHub verifica HTTP/build/tipos/lint separadamente dos testes Python da skill. Os cenários de navegador são uma verificação complementar reproduzível. A skill permanece v0.1.0-alpha.1; os 45 testes citados na página pertencem àquela release, sem misturar os novos testes de manutenção do repositório.
 
-O resultado da publicação e o vínculo entre commits de GitHub/Sites serão registrados no relatório de entrega, depois que as operações terminarem.
+O resultado posterior da publicação e o vínculo entre commits de GitHub/Sites
+estão no [registro de entrega](https://github.com/edubertin/workflow-skill/blob/main/docs/site-release-0.3.2.md).

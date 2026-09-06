@@ -5,6 +5,10 @@ técnico, em https://workflow-skill.edubertin.chatgpt.site/manual. O código em
 `site/` permite revisar e versionar a aplicação junto da skill, mantendo a
 instalação e as versões da skill independentes da publicação visual.
 
+A entrega aprovada é a aplicação **0.3.2**, publicada no Sites como versão **7**.
+O [registro da entrega](site-release-0.3.2.md) reúne os commits, o aceite e os
+limites. Para retomar a implementação, leia o [mapa do site](../site/PROJECT.md).
+
 ## Desenvolvimento
 
 Use Node.js 22.13 ou superior, na linha 22 usada pelo CI, e npm. Dentro de `site/`:
@@ -57,6 +61,10 @@ registre os commits completos de GitHub e Sites junto da versão implantada.
 Publique no projeto Sites existente, valide a URL pública e as rotas/metadata
 após a implantação e mantenha o registro dos resultados e limitações. A revisão
 em PR e a publicação são operações diferentes; um push não faz deploy.
+
+Alterações apenas em documentação podem ser sincronizadas e revisadas no Git
+sem republicar a aplicação. Registre a implantação por seus commits originais;
+não substitua esses identificadores pelo HEAD de um ajuste documental.
 
 O site mantém sua versão de aplicação em `site/package.json`. Mudanças de
 apresentação não alteram `.codex-plugin/plugin.json`, a release da skill ou as

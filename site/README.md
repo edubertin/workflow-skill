@@ -31,27 +31,32 @@ npm test
 
 Abra / para a apresentação e /manual para a documentação. O comando de testes usa localhost:3000 quando SITE_TEST_ORIGIN não é definido.
 
-## Documentação do projeto
+## Documentação atual
+
+A aplicação publicada está na versão **0.3.2**. A skill permanece na release
+experimental **v0.1.0-alpha.1**, com qualificação independente.
 
 - [Contexto e estrutura](PROJECT.md).
-- [Plano de implementação](docs/implementation-plan.md).
-- [Resultados e limites da verificação](docs/verification.md).
+- [Entrega aprovada e fonte publicado](https://github.com/edubertin/workflow-skill/blob/main/docs/site-release-0.3.2.md).
+- [Implementação mobile](docs/mobile-implementation.md).
+- [Verificação mobile e limites](docs/mobile-verification.md).
+- [Cenários de navegador reproduzíveis](tests/browser/README.md).
 - [Relatório público do piloto portátil](public/docs/piloto-portatil.md).
 
-A publicação segue a autorização do usuário; não está implícita nesses comandos.
+O GitHub guarda este código em `site/`; o Sites usa o mesmo fonte na raiz do
+checkout de implantação. O [procedimento de manutenção](https://github.com/edubertin/workflow-skill/blob/main/docs/site.md)
+explica a sincronização e a publicação. A publicação segue a autorização do
+usuário; não está implícita nos comandos de desenvolvimento.
 
-## Movimento e versionamento
+## Histórico de implementação
 
-A versão 0.2.0 do site adiciona pausa global, iluminação por letra, revelações e fluxo guiado por scroll. A skill continua na release v0.1.0-alpha.1.
+| Etapa | Registro |
+| --- | --- |
+| Primeira publicação | [Plano](docs/implementation-plan.md) e [verificação inicial](docs/verification.md) |
+| 0.2.0 — pausa global, iluminação e scroll | [Movimento](docs/motion-plan.md) e [verificação](docs/motion-verification.md) |
+| 0.2.1 — alinhamento e iluminação | [Refinamento da abertura](docs/hero-refinement.md) |
+| 0.3.0 — apresentação e manual mobile | [Implementação](docs/mobile-implementation.md) |
+| 0.3.1 / 0.3.2 — tipo HTTP do WebP e validação pública | [Tentativa, resultado e contrato](docs/mobile-verification.md#resultado-da-hospedagem-e-contrato-032) |
 
-- [Implementação de movimento](docs/motion-plan.md).
-- [Verificação da versão 0.2.0](docs/motion-verification.md).
-- [Cenários de navegador reproduzíveis](tests/browser/README.md).
-
-O GitHub guarda este código em site/ dentro de edubertin/workflow-skill. O Sites usa o mesmo fonte na raiz do checkout de implantação, preservando seu manifesto público. Sincronizar apenas fonte revisado; nunca copiar .git, dependências, caches ou credenciais.
-
-A versão 0.2.1 refina o alinhamento da figura e a percepção da iluminação; veja [auditoria do plano e ajustes](docs/hero-refinement.md).
-
-A versão 0.3.2 documenta o tipo HTTP genérico usado pelo Sites e valida os bytes e a decodificação do WebP nos navegadores. A configuração de headers de 0.3.1 é aplicada apenas em hosts que suportem esse arquivo; a apresentação de 0.3.0 permanece igual.
-
-A versão 0.3.0 melhora apresentação, navegação por toque e manual no celular, preservando o desktop. Veja [implementação mobile](docs/mobile-implementation.md) e [verificação e limites](docs/mobile-verification.md).
+Os registros mantêm resultados e falhas de cada etapa; o estado publicado está
+no registro de entrega indicado acima.
