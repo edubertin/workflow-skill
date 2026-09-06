@@ -11,7 +11,7 @@ const steps = [
   { title: 'Verificação', icon: CheckCheck, heading: 'A entrega vem acompanhada de evidência.', copy: 'Checks proporcionais, resultado observado e limitações tornam a entrega revisável. Uma verificação que não pôde acontecer continua identificada como pendente.', source: 'Verificação e avaliação', example: 'O que mudou · o que foi testado · o que ainda precisa ser verificado.' },
 ];
 function FlowNodes({ active, onSelect }: { active: number; onSelect: (index: number) => void }) {
-  return <ol className="flow-nodes" aria-label="Etapas do processo">{steps.map((step, index) => <li key={step.title} className={index <= active ? 'reached' : ''}><Button className="flow-node" variant="ghost" aria-pressed={index === active} aria-label={'Etapa ' + (index + 1) + ': ' + step.title} onClick={() => onSelect(index)}><span className="node-icon"><step.icon size={23} /></span><span className="node-label"><small>0{index + 1}</small>{step.title}</span></Button></li>)}</ol>;
+  return <ol className="flow-nodes" aria-label="Etapas do processo">{steps.map((step, index) => <li key={step.title} className={index <= active ? 'reached' : ''}><Button className="flow-node" variant="ghost" aria-pressed={index === active} aria-label={'Etapa ' + (index + 1) + ': ' + step.title} onClick={() => onSelect(index)}><span className="node-icon"><step.icon size={23} /><span className="mobile-node-number" aria-hidden="true">0{index + 1}</span></span><span className="node-label"><small>0{index + 1}</small>{step.title}</span></Button></li>)}</ol>;
 }
 export function FlowExplorer(): React.JSX.Element {
   const ref = useRef<HTMLElement>(null);
@@ -23,6 +23,7 @@ export function FlowExplorer(): React.JSX.Element {
         ? <span className="scroll-cue">{paused ? 'Animações pausadas · explore as etapas' : 'Role para percorrer as etapas'}<ArrowRight size={15} /></span>
         : <Button variant="ghost" className="motion-button" onClick={toggle} disabled={reduced || paused}>{playing && running ? <Pause /> : <Play />}{playing && running ? 'Pausar fluxo' : paused ? 'Fluxo pausado' : 'Animar fluxo'}</Button>}</div>
       <FlowNodes active={active} onSelect={select} />
+      <p className="mobile-stage-title" aria-live="polite">0{active + 1} / {step.title}</p>
       <div className="flow-details"><div className="flow-copy" key={active}><span className="eyebrow">0{active + 1} / {step.source}</span><h3>{step.heading}</h3><p>{step.copy}</p></div><div className="flow-example"><span className="micro">NA PRÁTICA</span><p key={active}>{step.example}</p><div className="flow-controls"><Button variant="ghost" aria-label="Etapa anterior" disabled={active === 0} onClick={() => select(active - 1)}><ArrowLeft /></Button><span>0{active + 1} / 05</span><Button variant="ghost" aria-label="Próxima etapa" disabled={active === 4} onClick={() => select(active + 1)}><ArrowRight /></Button><Button variant="ghost" aria-label="Reiniciar demonstração" onClick={() => select(0)}><RotateCcw /></Button></div></div></div>
     </div>
   </section>;

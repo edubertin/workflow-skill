@@ -50,6 +50,13 @@ test('Card social e assets estão disponíveis com formatos corretos', async () 
   assert.equal(image.readUInt32BE(20), 909);
   assert.ok(image.length < 5000000);
   for (const asset of ['/hero-ribbon.png', '/icon.svg']) assert.equal((await fetch(origin + asset)).status, 200);
+  const mobile = await fetch(origin + '/hero-ribbon-mobile.webp');
+  assert.equal(mobile.status, 200);
+  assert.match(mobile.headers.get('content-type') || '', /image\/webp/);
+  const mobileImage = Buffer.from(await mobile.arrayBuffer());
+  assert.equal(mobileImage.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(mobileImage.toString('ascii', 8, 12), 'WEBP');
+  assert.ok(mobileImage.length < 900000);
 });
 test('Manual publica instruções e limites verificáveis', () => {
   const html = documents.get('/manual');

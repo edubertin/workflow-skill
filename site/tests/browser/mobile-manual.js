@@ -1,0 +1,37 @@
+async (page) => {
+  const origin = await page.evaluate(() => location.origin);
+  const results=[]; const check=(value,label)=>{if(!value)throw new Error(label);results.push(label);};
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(origin+'/manual#instalacao');
+  await page.locator('.motion-root[data-ready=true]').waitFor();
+  await page.evaluate(()=>document.fonts.ready);
+  await page.waitForFunction(()=>{const y=document.querySelector('#instalacao').getBoundingClientRect().top;return y>=48&&y<innerHeight;});
+  check(await page.locator('#instalacao').evaluate(el=>el.getBoundingClientRect().top>=0&&el.getBoundingClientRect().top<innerHeight),'direct installation anchor');
+  await page.locator('.manual-mobile-index summary').click();
+  await page.getByRole('link',{name:'03 Modos e comandos',exact:true}).click();
+  check(await page.locator('.manual-mobile-index').getAttribute('open')===null,'index collapses after selection');
+  await page.waitForFunction(()=>{const y=document.querySelector('#comandos').getBoundingClientRect().top;return y>=48&&y<innerHeight;});
+  check(await page.locator('#comandos').evaluate(el=>el.getBoundingClientRect().top>=48),'index does not cover selected chapter');
+  check(await page.locator('.manual-mode:visible').count()===10&&await page.locator('.manual-table').isHidden(),'ten readable mode records');
+  await page.locator('.manual-mobile-index summary').click();
+  await page.getByRole('link',{name:'04 Estrutura',exact:true}).click();
+  await page.setViewportSize({width:320,height:740});
+  check(await page.locator('[data-format=tree] pre').evaluate(el=>getComputedStyle(el).whiteSpace==='pre'&&el.scrollWidth>el.clientWidth),'tree keeps indentation in own scroll region');
+  await page.context().grantPermissions(['clipboard-read','clipboard-write']);
+  const tree=await page.locator('[data-format=tree] code').textContent();
+  await page.getByRole('button',{name:'Copiar Mapa do repositório',exact:true}).click();
+  check((await page.evaluate(()=>navigator.clipboard.readText())).replace(/\r\n/g,'\n')===tree,'tree clipboard is exact');
+  await page.getByRole('button',{name:'Copiar Instalação isolada',exact:true}).click();
+  const install=await page.locator('.code-block').filter({has:page.getByRole('button',{name:'Copiar Instalação isolada',exact:true})}).locator('code').textContent();
+  check((await page.evaluate(()=>navigator.clipboard.readText())).replace(/\r\n/g,'\n')===install,'long installation clipboard is exact');
+  await page.locator('.manual-mobile-index summary').click();
+  await page.getByRole('link',{name:'10 Dúvidas',exact:true}).click();
+  const faq=page.locator('.manual-faq [data-slot=accordion-trigger]').first();
+  await faq.click(); check(await faq.getAttribute('aria-expanded')==='true','FAQ expands');
+  const targets=await page.locator('.code-heading button,.manual-mobile-index summary').evaluateAll(nodes=>nodes.every(el=>{const r=el.getBoundingClientRect();return r.height>=44&&r.width>=44;}));
+  check(targets,'manual touch controls');
+  await page.setViewportSize({width:320,height:740});
+  await page.evaluate(()=>{const sizes=[...document.querySelectorAll('body *')].map(el=>[el,getComputedStyle(el).fontSize]);for(const [el,size] of sizes)el.style.fontSize=parseFloat(size)*2+'px';});
+  check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),'manual fits with text enlarged to 200%');
+  return results;
+}

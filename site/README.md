@@ -51,3 +51,5 @@ A versão 0.2.0 do site adiciona pausa global, iluminação por letra, revelaç�
 O GitHub guarda este código em site/ dentro de edubertin/workflow-skill. O Sites usa o mesmo fonte na raiz do checkout de implantação, preservando seu manifesto público. Sincronizar apenas fonte revisado; nunca copiar .git, dependências, caches ou credenciais.
 
 A versão 0.2.1 refina o alinhamento da figura e a percepção da iluminação; veja [auditoria do plano e ajustes](docs/hero-refinement.md).
+
+A versão 0.3.0 melhora apresentação, navegação por toque e manual no celular, preservando o desktop. Veja [implementação mobile](docs/mobile-implementation.md) e [verificação e limites](docs/mobile-verification.md).

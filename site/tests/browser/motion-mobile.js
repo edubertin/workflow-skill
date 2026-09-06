@@ -6,7 +6,7 @@ async (page) => {
   await page.goto(origin);
   await page.waitForFunction(() => document.querySelector('.motion-root')?.dataset.motion === 'running');
   check(await page.locator('.flow-chapter').getAttribute('data-scroll') === 'false', 'mobile uses normal layout');
-  check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), 'mobile has no horizontal overflow');
+  check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth), 'mobile has no horizontal overflow');
   await page.getByRole('button',{name:'Animar fluxo',exact:true}).click();
   const active = () => page.locator('.flow-node[aria-pressed=true]').getAttribute('aria-label');
   const initial = await active(); await page.waitForTimeout(4250);

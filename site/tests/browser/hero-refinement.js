@@ -7,9 +7,11 @@ async (page) => {
   for (const width of [390, 760, 1091, 1440, 1920, 2560]) {
     await page.setViewportSize({width,height:930});
     const bounds = await page.evaluate(() => {
-      const shell = document.querySelector('.hero-layout').getBoundingClientRect();
+      const layout = document.querySelector('.hero-layout');
+      const shell = layout.getBoundingClientRect();
+      const padding = innerWidth <= 760 ? parseFloat(getComputedStyle(layout).paddingLeft) : 0;
       const art = document.querySelector('.hero-visual').getBoundingClientRect();
-      return {left:art.left-shell.left,right:art.right-shell.right,overflow:document.documentElement.scrollWidth>innerWidth};
+      return {left:art.left-shell.left-padding,right:art.right-shell.right+padding,overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth};
     });
     check(Math.abs(bounds.left)<1 && Math.abs(bounds.right)<1 && !bounds.overflow, 'art follows content bounds at '+width+'px');
   }

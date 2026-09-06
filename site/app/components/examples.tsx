@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { Check, Copy, Terminal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-export function CodeBlock({ code, label = 'Terminal' }: { code: string; label?: string }) : React.JSX.Element {
+export function CodeBlock({ code, label = 'Terminal', format = 'command' }: { code: string; label?: string; format?: 'command' | 'tree' }) : React.JSX.Element {
   const [state, setState] = useState<'idle' | 'copied' | 'error'>('idle');
   const copy = async () => {
     try { await navigator.clipboard.writeText(code); setState('copied'); }
     catch { console.error('Não foi possível copiar o comando para a área de transferência.'); setState('error'); }
   };
-  return <div className="code-block"><div className="code-heading"><span><Terminal size={14} />{label}</span><Button variant="ghost" onClick={copy} aria-label={'Copiar ' + label}>{state === 'copied' ? <Check /> : <Copy />}{state === 'copied' ? 'Copiado' : 'Copiar'}</Button></div><pre><code>{code}</code></pre><output className="sr-only">{state === 'copied' ? 'Texto copiado.' : state === 'error' ? 'Cópia indisponível. Selecione o texto e copie manualmente.' : ''}</output>{state === 'error' && <p className="copy-error">Selecione o texto para copiar manualmente.</p>}</div>;
+  return <div className="code-block" data-format={format}><div className="code-heading"><span><Terminal size={14} />{label}</span><Button variant="ghost" onClick={copy} aria-label={'Copiar ' + label}>{state === 'copied' ? <Check /> : <Copy />}{state === 'copied' ? 'Copiado' : 'Copiar'}</Button></div><pre role={format === 'tree' ? 'region' : undefined} tabIndex={format === 'tree' ? 0 : undefined} aria-label={format === 'tree' ? label : undefined}><code>{code}</code></pre><output className="sr-only">{state === 'copied' ? 'Texto copiado.' : state === 'error' ? 'Cópia indisponível. Selecione o texto e copie manualmente.' : ''}</output>{state === 'error' && <p className="copy-error">Selecione o texto para copiar manualmente.</p>}</div>;
 }
 const examples = [
   { id: 'analisar', label: 'Analisar', command: 'workflow modo leitura: confira a estrutura deste projeto', title: 'Entender antes de mudar.', description: 'Consulta instruções e arquivos relevantes, identifica o estado atual e explica os próximos passos. O modo leitura preserva os arquivos.' },
