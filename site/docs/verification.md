@@ -1,6 +1,6 @@
 # Verificação inicial — 5 de setembro de 2026
 
-Registro histórico da primeira publicação, concluída posteriormente. Para a evolução atual, consulte [movimento 0.2.0](motion-verification.md).
+Registro histórico da primeira publicação, concluída posteriormente. Para o estado atual, consulte a [verificação mobile e pública 0.3.2](mobile-verification.md) e o [registro de entrega](https://github.com/edubertin/workflow-skill/blob/main/docs/site-release-0.3.2.md). Os próximos passos e os resultados abaixo se referem à data deste registro.
 
 ## Registro anterior à publicação
 Versão desenvolvida e verificada localmente. Estes resultados foram registrados antes de commit, push e implantação. A prévia da aplicação compilada usa http://127.0.0.1:4173/; o manual fica em /manual.
@@ -53,5 +53,5 @@ A skill pessoal permaneceu intacta. Os 45 testes do pacote pertencem à release 
 - Uma recompilação encontrou um arquivo gerado bloqueado pelo servidor de prévia no Windows. O servidor foi encerrado, o build foi concluído e a prévia reiniciada.
 - O Vinext informa que não consegue classificar estaticamente as duas rotas. A compilação terminou com sucesso e ambas responderam aos testes HTTP.
 
-## Próxima verificação
-Publicação pública, commit e push autorizados pelo usuário em 5 de setembro de 2026. Registrar a fonte conforme o fluxo do Sites, implantar, confirmar as duas rotas e os assets no endereço hospedado e validar a URL pública do card. Não repetir testes já aprovados sem mudança relevante ou falha nova.
+## Encaminhamento registrado na época
+A próxima etapa era publicar e confirmar rotas, assets e card no endereço hospedado. Essa etapa foi concluída; o registro de entrega indicado no início documenta a publicação posterior. Este histórico não concede autorização para novas operações Git ou Sites.

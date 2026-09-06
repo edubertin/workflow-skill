@@ -1,4 +1,9 @@
 # Plano de implementação — Workflow Site
+
+Plano histórico da primeira entrega, concluída. A evolução atual está no
+[mapa do site](../PROJECT.md) e na [verificação mobile](mobile-verification.md).
+O escopo e as autorizações citados abaixo pertencem à etapa original.
+
 ## Resultado
 Site em português com apresentação visual e manual técnico extenso da skill. Design editorial italiano, fundo escuro e acentos champanhe; fluxos interativos com destaque azul gelo. Crédito discreto: um link ao portfólio, sem seção pessoal.
 ## Etapas
