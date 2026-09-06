@@ -45,3 +45,7 @@ A antiga simulação que fazia todo construtor IntersectionObserver lançar erro
 A execução no servidor de desenvolvimento também encontrou avisos de hidratação e encerramento durante ciclos de rebuild; as verificações de entrega foram feitas no build compilado. Não se confundem os logs de injeção de falhas com erros de uso normal.
 
 WebKit automatizado no Windows não é Safari em iPhone. Não houve acesso a aparelho físico, navegador interno do Instagram, VoiceOver ou TalkBack. Navegação semântica, foco e dimensões foram verificados por automação; isso não certifica conformidade completa de acessibilidade. Safari iOS, Chrome Android e Instagram reais continuam como verificação complementar recomendada.
+
+## Checagem pública e correção 0.3.1
+
+A primeira publicação mobile (Sites versão 5, app 0.3.0) renderizou corretamente, mas o contrato HTTP do WebP falhou: a hospedagem respondeu application/octet-stream. Foi adicionado public/_headers com Content-Type: image/webp apenas para esse asset, preservando o cache existente dos arquivos com hash. A configuração segue a [documentação de headers para static assets da Cloudflare](https://developers.cloudflare.com/workers/static-assets/headers/). A alteração não muda pixels, CSS ou interação. O teste permanece estrito e deve passar novamente no endereço público após a correção.
