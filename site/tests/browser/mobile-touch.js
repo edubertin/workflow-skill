@@ -7,6 +7,8 @@ async (page) => {
     await phone.goto(origin);
     await phone.locator('.motion-root[data-ready=true]').waitFor();
     check(await phone.evaluate(()=>matchMedia('(pointer:coarse)').matches),'coarse touch pointer');
+    const imageSize=await phone.evaluate(()=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve([image.naturalWidth,image.naturalHeight]);image.onerror=()=>reject(new Error('Mobile WebP did not decode'));image.src='/hero-ribbon-mobile.webp';}));
+    check(imageSize[0]===1536&&imageSize[1]===1024,'mobile WebP decodes in browser');
     await phone.locator('.mobile-menu summary').tap();
     check(await phone.locator('.mobile-menu').getAttribute('open')!==null,'touch opens menu');
     await phone.getByRole('link',{name:'Como funciona',exact:true}).tap();
