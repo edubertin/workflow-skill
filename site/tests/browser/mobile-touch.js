@@ -17,6 +17,8 @@ async (page) => {
     check((await phone.locator('.mobile-stage-title').textContent()).includes('Verificação'),'touch selects final stage');
     check(await phone.locator('.flow-chapter').getAttribute('data-scroll')==='false','touch flow avoids sticky scroll');
     await phone.goto(origin+'/manual');
+    await phone.locator('.motion-root[data-ready=true]').waitFor();
+    await phone.evaluate(()=>document.fonts.ready);
     await phone.locator('.manual-mobile-index summary').tap();
     await phone.getByRole('link',{name:'04 Estrutura',exact:true}).tap();
     check(await phone.locator('.manual-mobile-index').getAttribute('open')===null,'touch closes manual index');
